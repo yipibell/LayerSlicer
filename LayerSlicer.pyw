@@ -1,4 +1,4 @@
-# pyinstaller -w -F -i "E:\my_Pythone_Scripts\Tester\a1.ico" LeyarSlicer.pyw #
+# pyinstaller -w -F -i "E:\my_Pythone_Scripts\Tester\a1.ico" LayerSlicer.pyw #
 
 from Tkinter import *
 from ttk import Progressbar
@@ -62,7 +62,8 @@ class Gcode_Slicer:
                 start_Layer=int(self.start_Layer_Entry.get())
             except ValueError:
                 slice=False
-                tkMessageBox.showerror("Bad Value", "starting layer must be a number")
+                progress.destroy()
+                tkMessageBox.showerror("Bad Value", "Sorry, I got a bad value.\nstarting layer must be a number")
 
             if slice:
                 origen_File = open(self.file_path, 'r')
@@ -99,9 +100,11 @@ class Gcode_Slicer:
                     tkMessageBox.showerror("Bad Value", "There is a problem with one of the Layers in the line:\n{}".format(line))
                     error=True
                 output_File.close()
-                progress.destroy()
                 if not error:
-                    tkMessageBox.showinfo("Success", "new gcode file is created successfully in the same folder.\n file name is:\n{}".format(output_Path.split('/')[-1]))
+                    tkMessageBox.showinfo("Success", "Success, New gcode file is created successfully in the same folder.\n file name is:\n{}".format(output_Path.split('/')[-1]))
+        else:
+            progress.destroy()
+            tkMessageBox.showinfo("Bad File path","Sorry i cannot proceed, that is not a valid gcode file")
 
     def open_canculate(self):
         if self.calculate_frame_Open:
